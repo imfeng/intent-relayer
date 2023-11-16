@@ -46,14 +46,14 @@ export class AppController {
   })
   // @ApiResponse({ status: 200, description: 'Transaction hash', schema: { type: 'string' }  })
   async sendTransaction(@Body() txDto: SendTxDto) {
-    const signer = Wallet.createRandom();
-    const sig = await signer.sendTransaction({
-      from: txDto.from,
-      to: txDto.to,
-      gasPrice: txDto.fee,
-      value: txDto.value,
-      data: txDto.calldata,
-    });
+    // const signer = Wallet.createRandom();
+    // const sig = await signer.sendTransaction({
+    //   from: txDto.from,
+    //   to: txDto.to,
+    //   gasPrice: txDto.fee,
+    //   value: txDto.value,
+    //   data: txDto.calldata,
+    // });
     return new BadRequestException('Not implemented');
   }
 
