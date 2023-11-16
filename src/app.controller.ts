@@ -5,22 +5,23 @@ import { Wallet } from 'ethers';
 
 class SendTxDto {
   @ApiProperty()
-  from: string;
+  chainId: number;
 
   @ApiProperty()
-  to: string;
+  toAddress: string;
 
   @ApiProperty()
   fee: string;
 
   @ApiProperty()
-  value: string;
+  feeToken: string;
 
-  @ApiPropertyOptional()
-  gasPrice?: string;
+  @ApiProperty()
+  value: string;
 
   @ApiProperty()
   calldata: string;
+
 }
 
 class SendTxResponse {
