@@ -4,14 +4,15 @@
   "devCommand": "npm run start:dev",
   "builds": [
     {
-      "src": "dist/index.js",
-      "use": "@vercel/node"
+        "src": "dist/main.js",
+        "use": "@vercel/node"
     }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
+      {
+          "src": "/(.*)",
+          "dest": "dist/main.js",
+          "methods": [ "GET", "POST", "PUT", "PATCH", "DELETE" ]
+      }
   ]
 }
