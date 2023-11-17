@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TxTask } from './orm/tx-task.entity';
 import { ERC20PermitContractInterface } from './contracts/erc20-permit.abi';
 
-const ERC20PERMIT_ADDRESS = '0x7757c98945BF38f48E2b897Db320145D48e7C8C5';
 const CHAIN_MAP = {
   5: 'https://ethereum-goerli.publicnode.com',
   42161: 'https://arbitrum-one.publicnode.com	',
@@ -17,12 +16,14 @@ const CHAIN_MAP = {
 @Injectable()
 export class AppService {
   signer: Wallet;
+  ERC20PERMIT_ADDRESS!: string;
   constructor(
     private readonly configService: ConfigService,
     private readonly logger: CustomLogger,
     @InjectRepository(TxTask) private readonly txTaskRepository: Repository<TxTask>,
   ) {
     const priv = this.configService.getOrThrow<string>('PRIV');
+    this.ERC20PERMIT_ADDRESS = this.configService.getOrThrow<string>('ERC20PERMIT_ADDRESS');
     // const contactA
     this.signer = new Wallet(priv);
     this.test();
@@ -56,8 +57,8 @@ export class AppService {
     if(txDto.value !== '0') {
       throw new BadRequestException('value must be 0');
     }
-    if(txDto.toAddress !== ERC20PERMIT_ADDRESS) {
-      throw new BadRequestException(`toAddress must be ${ERC20PERMIT_ADDRESS}`);
+    if(txDto.toAddress !== this.ERC20PERMIT_ADDRESS) {
+      throw new BadRequestException(`toAddress must be ${this.ERC20PERMIT_ADDRESS}`);
     }
     const provideUrl = this.getProviderUrl(txDto.chainId);
 
@@ -80,7 +81,7 @@ export class AppService {
       .connect(provider)
       .sendTransaction({
         from: this.signer.address,
-        to: ERC20PERMIT_ADDRESS,
+        to: this.ERC20PERMIT_ADDRESS,
         // gasPrice: txDto.fee,
         // value: txDto.value,
         data: txDto.calldata,
@@ -95,7 +96,7 @@ export class AppService {
       .connect(provider)
       .sendTransaction({
         from: this.signer.address,
-        to: ERC20PERMIT_ADDRESS,
+        to: this.ERC20PERMIT_ADDRESS,
         data: transferCalldata,
       });
     this.logger.log({
