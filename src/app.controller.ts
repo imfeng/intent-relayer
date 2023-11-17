@@ -1,38 +1,26 @@
 import { BadRequestException, Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiCreatedResponse, ApiOperation, ApiProperty, ApiPropertyOptional, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Wallet } from 'ethers';
-
-class SendTxDto {
-  @ApiProperty()
-  chainId: number;
-
-  @ApiProperty()
-  toAddress: string;
-
-  @ApiProperty()
-  fee: string;
-
-  @ApiProperty()
-  feeToken: string;
-
-  @ApiProperty()
-  value: string;
-
-  @ApiProperty()
-  calldata: string;
-
-}
-
-class SendTxResponse {
-  @ApiProperty()
-  txHash: string;
-}
+import { Contract, JsonRpcProvider, Wallet, AbiCoder, Interface } from 'ethers';
+import { ConfigService } from '@nestjs/config';
+import { CustomLogger } from './service/console-logger.service';
+import * as ERC20ABI from './abi.json';
+import { RelayerTxDto, RelayerTxResponse } from './dto/tx.dto';
 
 @ApiTags('Main')
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  signer: Wallet;
+
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly appService: AppService,
+    private readonly logger: CustomLogger,
+  ) {
+    const priv = this.configService.getOrThrow<string>('PRIV');
+    // const contactA
+    this.signer = new Wallet(priv);
+  }
 
   @Get('health')
   @ApiOperation({ summary: 'Health check' })
@@ -43,19 +31,16 @@ export class AppController {
   @Post('send-tx')
   @ApiOperation({ summary: 'Send transaction' })
   @ApiCreatedResponse({
-    type: SendTxResponse,
+    type: RelayerTxResponse,
   })
   // @ApiResponse({ status: 200, description: 'Transaction hash', schema: { type: 'string' }  })
-  async sendTransaction(@Body() txDto: SendTxDto) {
-    // const signer = Wallet.createRandom();
-    // const sig = await signer.sendTransaction({
-    //   from: txDto.from,
-    //   to: txDto.to,
-    //   gasPrice: txDto.fee,
-    //   value: txDto.value,
-    //   data: txDto.calldata,
-    // });
-    return new BadRequestException('Not implemented');
+  async sendTransaction(@Body() txDto: RelayerTxDto) {
+    this.logger.log({
+      message: 'sendTransaction',
+      txDto,
+    }, 'AppController.sendTransaction');
+
+    return await this.appService.doPermit(txDto);
   }
 
   @Get()
