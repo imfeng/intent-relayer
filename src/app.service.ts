@@ -2,11 +2,11 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Contract, Interface, JsonRpcProvider, TransactionReceipt, TransactionResponse, Wallet } from 'ethers';
 import { CustomLogger } from './service/console-logger.service';
-import * as ERC20ABI from './abi.json';
 import { RelayerTxDto } from './dto/tx.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TxTask } from './orm/tx-task.entity';
+import { ERC20PermitContractInterface } from './contracts/erc20-permit.abi';
 
 const ERC20PERMIT_ADDRESS = '0x7757c98945BF38f48E2b897Db320145D48e7C8C5';
 const CHAIN_MAP = {
@@ -14,8 +14,6 @@ const CHAIN_MAP = {
   5: 'https://ethereum-goerli.publicnode.com',
   42161: 'https://arbitrum-one.publicnode.com	',
 }
-
-const ERC20PermitContractInterface = new Interface(ERC20ABI);
 
 @Injectable()
 export class AppService {
