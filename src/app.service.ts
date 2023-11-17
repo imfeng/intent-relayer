@@ -10,7 +10,6 @@ import { ERC20PermitContractInterface } from './contracts/erc20-permit.abi';
 
 const ERC20PERMIT_ADDRESS = '0x7757c98945BF38f48E2b897Db320145D48e7C8C5';
 const CHAIN_MAP = {
-  // 1: 'https://ethereum.publicnode.com',
   5: 'https://ethereum-goerli.publicnode.com',
   42161: 'https://arbitrum-one.publicnode.com	',
 }
