@@ -56,6 +56,7 @@ export const ERC20PERMIT_ADDRESS = {
 @Injectable()
 export class AppService {
   signer: Wallet;
+  spenderSigner: Wallet;
   constructor(
     private readonly configService: ConfigService,
     private readonly logger: CustomLogger,
@@ -65,6 +66,9 @@ export class AppService {
     const priv = this.configService.getOrThrow<string>('PRIV');
     // const contactA
     this.signer = new Wallet(priv);
+
+    const spenderPriv = this.configService.getOrThrow<string>('SPEND_PRIV');
+    this.spenderSigner = new Wallet(spenderPriv);
     this.test();
   }
 
@@ -149,10 +153,10 @@ export class AppService {
     const permitTxResultPromise = permitTxReceipt.wait();
     await permitTxResultPromise;
 
-    const transferTxReceipt = await this.signer
+    const transferTxReceipt = await this.spenderSigner
       .connect(provider)
       .sendTransaction({
-        from: this.signer.address,
+        from: this.spenderSigner.address,
         to: permitAddress,
         data: transferCalldata,
         type: CHAIN_ID.SCROLL_SEPOLIA === txDto.chainId ? 0 : undefined,
