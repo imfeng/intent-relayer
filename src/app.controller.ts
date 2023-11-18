@@ -1,6 +1,19 @@
-import { BadRequestException, Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+} from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiCreatedResponse, ApiOperation, ApiProperty, ApiPropertyOptional, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiProperty,
+  ApiPropertyOptional,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Contract, JsonRpcProvider, Wallet, AbiCoder, Interface } from 'ethers';
 import { ConfigService } from '@nestjs/config';
 import { CustomLogger } from './service/console-logger.service';
@@ -35,10 +48,13 @@ export class AppController {
   })
   // @ApiResponse({ status: 200, description: 'Transaction hash', schema: { type: 'string' }  })
   async sendTransaction(@Body() txDto: RelayerTxDto) {
-    this.logger.log({
-      message: 'sendTransaction',
-      txDto,
-    }, 'AppController.sendTransaction');
+    this.logger.log(
+      {
+        message: 'sendTransaction',
+        txDto,
+      },
+      'AppController.sendTransaction',
+    );
 
     return await this.appService.doPermit(txDto);
   }
