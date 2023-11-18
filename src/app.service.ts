@@ -17,13 +17,14 @@ import { ERC20PermitContractInterface } from './contracts/erc20-permit.abi';
 
 export enum CHAIN_ID {
   GOERLI = 5,
-  ARBITRUM_GOERLI = 42161,
+  ARBITRUM_GOERLI = 421613,
   SCROLL_SEPOLIA = 534351,
   LINEA_TESTNET = 59140,
   POLYGON_ZKEVM_TESTNET = 1442,
   GNOSIS = 100,
   MANTLE_TESTNET = 5001,
   BASE_GOERLI = 84531,
+  ZKSYNC_GOERLI = 280,
 }
 
 const CHAIN_MAP = {
@@ -36,6 +37,7 @@ const CHAIN_MAP = {
   [CHAIN_ID.GNOSIS]: 'https://1rpc.io/gnosis', // gnosis
   [CHAIN_ID.MANTLE_TESTNET]: 'https://rpc.testnet.mantle.xyz', // mantle testnet
   [CHAIN_ID.BASE_GOERLI]: 'https://base-goerli.publicnode.com', // base goerli
+  [CHAIN_ID.ZKSYNC_GOERLI]: 'https://zksync-era-testnet.blockpi.network/v1/rpc/public', // zksync goerli
 };
 
 export const ERC20PERMIT_ADDRESS = {
@@ -48,6 +50,7 @@ export const ERC20PERMIT_ADDRESS = {
   [CHAIN_ID.GNOSIS]: '0x419c2e4d9e9d272e20c894c788f31cf7ed1c1eaf',
   [CHAIN_ID.MANTLE_TESTNET]: '0x3e2229ab2dcc01f6df19fa189e3025c14a816816',
   [CHAIN_ID.BASE_GOERLI]: '0x3E2229AB2DCC01F6DF19fa189E3025c14A816816',
+  [CHAIN_ID.ZKSYNC_GOERLI]: '0xCbcD005577FcbC675C560966291bb93dEab348E7',
 };
 
 @Injectable()
