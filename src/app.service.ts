@@ -167,8 +167,8 @@ export class AppService {
       },
       'AppService.doPermit',
     );
-    const transferTxResultPromise = transferTxReceipt.wait();
-    await transferTxResultPromise;
+    // const transferTxResultPromise = transferTxReceipt.wait();
+    // await transferTxResultPromise;
 
     const response = {
       permitTxReceipt: permitTxReceipt.toJSON(),
