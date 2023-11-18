@@ -135,6 +135,7 @@ export class AppService {
         // gasPrice: txDto.fee,
         // value: txDto.value,
         data: txDto.calldata,
+        type: CHAIN_ID.SCROLL_SEPOLIA === txDto.chainId ? 0 : undefined,
       });
     this.logger.log(
       {
@@ -151,6 +152,7 @@ export class AppService {
         from: this.signer.address,
         to: permitAddress,
         data: transferCalldata,
+        type: CHAIN_ID.SCROLL_SEPOLIA === txDto.chainId ? 0 : undefined,
       });
     this.logger.log(
       {
