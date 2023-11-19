@@ -29,7 +29,7 @@ export enum CHAIN_ID {
 
 const CHAIN_MAP = {
   [CHAIN_ID.GOERLI]: 'https://ethereum-goerli.publicnode.com',
-  [CHAIN_ID.ARBITRUM_GOERLI]: 'https://arbitrum-one.publicnode.com	', // Arbitrum One Testnet
+  [CHAIN_ID.ARBITRUM_GOERLI]: 'https://arbitrum-goerli.publicnode.com', // Arbitrum One Testnet
   [CHAIN_ID.SCROLL_SEPOLIA]:
     'https://scroll-sepolia.blockpi.network/v1/rpc/public', // Scroll sepolia
   [CHAIN_ID.LINEA_TESTNET]: 'https://rpc.goerli.linea.build', // Linea
